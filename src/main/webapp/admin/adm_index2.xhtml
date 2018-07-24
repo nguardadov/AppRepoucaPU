@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>ADMIN</title>
+
+        <!--<script src="../resource/public/js/jquery-3.3.1.min.js"></script> -->
+        <script src="../resources/resources/public/js/jquery-3.3.1.min.js"></script>
+        <script src="../resources/public/js/bootstrap.bundle.js"></script>
+        <link rel="stylesheet" type="text/css" href="../resources/public/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+              crossorigin="anonymous"/>
+
+        <style>
+            @import url('https://fonts.googleapis.com/css?family=Roboto');
+            i {
+                color:black;
+                font-family: 'Roboto';
+            }
+
+            a {
+                color: black;
+
+            }
+
+            a :hover {
+                background-color: red;
+            }
+
+            #editDoc {
+                background-color: black;
+            }
+        </style>
+
+    </h:head>
+
+    <h:body >
+        <script>
+
+            function mostrarEditor(component)
+            {
+                var x = component.value;
+                if (x == 0) {
+                    $("#valorRadio").show();
+                } else {
+                    $("#valorRadio").hide();
+                }
+            }
+
+            function    actualizarComponent() {
+                //alert('actualizar');
+            }
+
+        </script>
+        <h:form id="timeOut" enctype="multipart/form-data"> <!-- Sesion expira en 15 minutos -->
+            <p:idleMonitor id="timeOut" onactive="PF('dialogSessionTimeOut').show();" timeout="#{userValidationRepo.logueado != true ?900000:950000}"/>
+            <p:dialog header="La sesión ha Expirado" widgetVar="dialogSessionTimeOut" modal="true" closable="false" draggable="false" resizable="false">
+                <center>
+                    <p:commandLink  action="#{userValidationRepo.logOutRepo()}"><h:outputLink value="${request.contextPath}/logout">Inciar Sessi&oacute;n</h:outputLink> </p:commandLink>
+                </center>
+            </p:dialog>
+        </h:form>
+
+
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: powderblue;">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <a class="navbar-brand" href="#" style="margin-top: 0px">
+                    <p>#{userValidationRepo.userLogin.nombre}</p>
+                </a>
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Inicio&nbsp;&nbsp;
+                            <i class="fa fa-home"></i>
+                        </a> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile"
+                           aria-selected="false">Usuarios&nbsp;&nbsp;
+                            <i class="fa fa-user"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Solicitudes&nbsp;&nbsp;<i class="fa fa-bell"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#createacount">Creaci&oacute;n de cuenta&nbsp;
+                                <i class="fa fa-comments-o"></i>
+                                <span class="badge badge-danger navbar-badge">&nbsp;3</span>
+                            </a>
+                            <a class="dropdown-item" href="#">Restablecer contrase&ntilde;a
+                                <i class="fa fa-comments-o"></i>
+                                <span class="badge badge-danger navbar-badge">2</span>
+                            </a>
+
+                            <a class="dropdown-item" href="#createacount" data-toggle="pill" onclick="actualizarComponent()" >
+                                Creacion de cuenta &nbsp;
+                                <i class="fa fa-user-plus"></i>
+                                <span class="badge badge-danger navbar-badge">&nbsp;2</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <form class="form-inline my-2 my-lg-0">
+                <span class="form-control mr-sm-2">ROL DE USUARIO</span>
+                
+                <p:commandLink><h:outputLink class="btn btn-info"3 value="${request.contextPath}/logout">Logout  <i class="fa fa-sign-out-alt"></i></h:outputLink>
+                    
+                </p:commandLink>
+
+                <button class="btn btn-info" type="submit">VISOR GIS&nbsp;&nbsp;
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </nav>
+
+        <div class="container">
+            <div class="tab-content" id="pills-tabContent">
+
+                <!-- ****************************************************** INICIO ****************************************************** -->
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    MENU DE INICIO SE VAN A MOSTRAR TODAS LAS ACTIVIDADES    
+                </div>
+
+
+                <!-- ****************************************************** USUARIOS ****************************************************** -->
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <h:form id="form">
+                        <br></br>
+                        <p:messages id="messages" showDetail="true" closable="true">
+                            <p:autoUpdate />
+                        </p:messages>
+
+                        <p:dataTable id="singleDT" var="user" value="#{userValidationRepo.listuser}" selectionMode="single" selection="#{userValidationRepo.userSelect}" rowKey="#{user.idUsuario}">
+                            <f:facet name="header">
+                                Seleccione un Usuario para ver detalles
+                                <!--<p:graphicImage name="../resources/public/css/angie1.jpg"/> -->
+                            </f:facet>
+                            <p:column headerText="Id">
+                                <h:outputText value="#{user.idUsuario}" />
+                            </p:column>
+                            <p:column headerText="Nombre"> 
+                                <h:outputText value="#{user.nombre}" />
+                            </p:column>
+                            <p:column headerText="Correo">
+                                <h:outputText value="#{user.correo}" />
+                            </p:column>
+                            <p:column headerText="Rol">
+                                <h:outputText value="#{user.rol.nombre}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <!-- <p:commandButton process="singleDT" update=":form:userDetail" icon="ui-icon-search" value="View" oncomplete="PF('userDialog').show()" /> --> <!-- PRUEBA INCLUYENDO DENTRO DE UN P:DIALOG MODAL -->
+                                <!-- <p:commandLink process="singleDT" value="View" onclick="PF('dialogPrueba').show()" /> --> <!-- PRUEBA INCLUYENDO UN XHTML DENTRO DE UN P:DIALOG -->
+                                <p:commandButton action="#{administracionBean.verficarUserSelect(userValidationRepo.userSelect)}" value="Redireccionar Vista de Usuario Seleccionado" update=":form:singleDT" process="singleDT" />
+                            </f:facet>
+                        </p:dataTable>
+
+
+                        <!-- DIALOGO DE USUARIO SELECCIONADO -->
+                        <p:dialog header="Información de Usuario" widgetVar="userDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                            <p:outputPanel id="userDetail" style="text-align:center;">
+                                <p:panelGrid  columns="2" rendered="#{not empty userValidationRepo.userSelect}" columnClasses="label,value">
+                                    <f:facet name="header">
+                                        <!-- direccion en disco de la imagen -->
+                                        Informacion de usuario
+                                    </f:facet>
+
+                                    <h:outputText value="Id:" />
+                                    <h:outputText value="#{userValidationRepo.userSelect.idUsuario}" />
+
+                                    <h:outputText value="Nombre" />
+                                    <h:outputText value="#{userValidationRepo.userSelect.nombre}" />
+
+                                    <h:outputText value="Correo:" />
+                                    <h:outputText value="#{userValidationRepo.userSelect.correo}" />
+
+                                    <h:outputText value="Departamento" />
+                                    <h:outputText value="$#{userValidationRepo.userSelect.codDepartamento.nombre}" />
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+                    </h:form>
+                </div>
+
+
+
+                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                    menu3
+                </div>
+
+
+
+                <div class="tab-pane fade" id="createacount" role="tabpanel" aria-labelledby="pills-contact-tab">
+                    <h:panelGrid id="grid">
+                    <h:form id="formUserRequest">
+                        <p:autoUpdate/>
+                        <p:messages id="messages" showDetail="true" closable="true">
+                            <p:autoUpdate />
+                        </p:messages>
+
+                        <p:dataTable id="TableUserRequestAcount" var="userRequest" value="#{administracionBean.listausuariosPendientes}" selectionMode="single" selection="#{administracionBean.userRequestAcount}" rowKey="#{userRequest.idUsuario}">
+                            <p:autoUpdate/>
+                            <f:facet name="header">
+                                Lista de Usuarios con petici&oacute;n de crear cuenta
+                            </f:facet>
+
+
+
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{userRequest.nombre}" />
+                            </p:column>
+
+                            <p:column headerText="Correo">
+                                <h:outputText value="#{userRequest.correo}" />
+                            </p:column>
+
+                            <p:column headerText="Rol Solicitado">
+                                <h:outputText value="#{userRequest.rol.descripcion}" />
+                            </p:column>
+
+                            <f:facet name="footer">
+                                <p:commandButton process="TableUserRequestAcount" update=":formUserRequest:userDetailRequest" icon="ui-icon-search" value="View" oncomplete="PF('userDialogRequest').show()" />
+                            </f:facet>
+                        </p:dataTable>
+
+                        <p:dialog header="Información de Solicitud" widgetVar="userDialogRequest" modal="true" showEffect="fade" draggable="false" position="center" resizable="false" width="500" height="380">
+                            <p:outputPanel id="userDetailRequest">
+                                <p:panelGrid  columns="2" rendered="#{not empty administracionBean.userRequestAcount}" columnClasses="label,value" >
+                                    <f:facet name="header">
+                                        <!-- direccion en disco de la imagen -->
+                                        Informacion de usuario
+                                    </f:facet>
+
+                                    <h:outputText value="Id:" />
+                                    <h:outputText value="#{administracionBean.userRequestAcount.idUsuario}" />
+
+                                    <h:outputText value="Nombre" />
+                                    <h:outputText value="#{administracionBean.userRequestAcount.nombre}" />
+
+                                    <h:outputText value="Correo:" />
+                                    <h:outputText value="#{administracionBean.userRequestAcount.correo}" />
+
+                                    <h:outputText value="Departamento" />
+                                    <h:outputText value="#{administracionBean.userRequestAcount.codDepartamento.nombre}" />
+                                </p:panelGrid>
+                            </p:outputPanel>
+
+                            <p:selectOneRadio value="#{administracionBean.valueRadioButton}" onchange="mostrarEditor(this)">
+                                <p:ajax listener="#{administracionBean.handlerChangeRadioButton()}" />
+                                <f:selectItem itemLabel="Aceptar" itemValue="1"  />
+                                <f:selectItem itemLabel="Denegar" itemValue="0" />
+                            </p:selectOneRadio>
+                            <br></br>
+                            <div id="valorRadio" >
+                                <h:outputLabel value="Escriba un motivo por denegar solicitud"/>
+                                <p:editor id="editorComp" height="100" value="#{administracionBean.textEditor}" controls="bold italic underline font size" />    
+                            </div>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Responder" icon="ui-icon-check" process="@all" update="grid" actionListener="#{administracionBean.aprobarSolicitudCuenta(administracionBean.userRequestAcount)}" onclick="PF('userDialogRequest').hide();"/>
+                                <p:commandButton value="Cancelar" icon="ui-icon-close" />
+                            </f:facet>
+                        </p:dialog>
+                    </h:form>
+                        </h:panelGrid>
+                </div>
+            </div>
+        </div>
+
+        <p:dialog widgetVar="dialogPrueba" resizable="false" header="Lista de Investigaciones" width="85%" height="90%" draggable="false" responsive="true">
+            <ui:include src="/admin/investigacion_selct.xhtml" />
+        </p:dialog>
+
+    </h:body>
+
+</html>

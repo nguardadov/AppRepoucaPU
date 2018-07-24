@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      <h:head>
+
+    </h:head>
+    <h:body>
+
+        <h:form>
+            <p:commandButton actionListener="#{main.probar()}" value="Submit" ></p:commandButton>
+        </h:form>
+        
+        <div class="login-box">
+            <p:outputPanel rendered="#{ (param['securityStatus'] eq 'authError' ?true:false) }">
+                <div class="alert alert-danger alert-dismissible">
+                    <center>Usuario o Contraseña Invalidos.</center>
+                </div>
+            </p:outputPanel>
+            <div class="login-logo">
+
+                <a href="#"><b>lOGIN</b>ALMACEN DE DATOS</a>
+            </div>
+
+            <!-- /.login-logo -->
+            <div class="login-box-body">
+                <p styleClass="login-box-msg"></p>
+                <h:form id="loginForm" >
+
+                    <p:autoUpdate></p:autoUpdate>
+                    <div class="form-group has-feedback">
+                        <p:inputText id="j_username"  value="#{userValidationRepo.fcorreo}"  styleClass="form-control" placeholder="Correo"/>
+                        <span class="glyphicon glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <p:password id="j_password" value="#{userValidationRepo.fcontrasenia}" styleClass="form-control" placeholder="Contraseña"/>
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+
+                        <p:selectOneMenu  value="#{userValidationRepo.fidrol}" style="width:100%" id="id_rolusuario" >
+                            <f:selectItem itemLabel="Seleccione rol de usuario" itemValue="" />
+                            <f:selectItem itemLabel="Admin" itemValue="1"/>
+                            <f:selectItem itemLabel="UCA" itemValue="2"/>
+                            <f:selectItem itemLabel="INVITADO" itemValue="3"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                        </div>
+                        <p:commandLink action="#{userValidationRepo.loginRepo()}"  ajax="false" styleClass="btn btn-primary" value="Ingresar" />      
+
+                    </div>
+                </h:form>
+            </div>
+        </div>
+        
+    </h:body>
+</html>
+

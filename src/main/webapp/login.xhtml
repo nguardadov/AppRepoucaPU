@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <title>Login</title>
+        <link rel="stylesheet" type="text/css" href="resources/css/StylePages.css"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="resources/public/css/login.css"/>
+
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+    </h:head>
+    <h:body>
+
+        <div class="modal-dialog text-center">
+
+            <p:outputPanel rendered="#{ (param['securityStatus'] eq 'authError' ?true:false) }">
+                <div class="alert alert-danger alert-dismissible">
+                    <center>Usuario o Contraseña Invalidos.</center>
+                </div>
+            </p:outputPanel> 
+
+            <div class="col-sm-8 main-section">
+                <div class="modal-content">
+                    <div class="col-12 user-img">
+                        <img src="resources/public/img/logo.png"/>
+                    </div>
+                    <h:form class="col-12" id="loginForm">
+                        <p:messages id="messages" showDetail="true" closable="true">
+                            <p:autoUpdate />
+                        </p:messages>
+
+                        <p:autoUpdate></p:autoUpdate>
+                        <div class="form-group">
+
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+                                <p:inputText placeholder="correo" id="j_username" value="#{userValidationRepo.fcorreo}"/>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon"><i class="fa fa-key"></i></span>
+                                <p:password placeholder="*********" id="j_password" value="#{userValidationRepo.fcontrasenia}"/>
+                            </div>
+                        </div>
+
+
+                        <!-- <button class="btn">Ingresar</button>-->
+
+                        <!-- 
+                            <a href="#" data-toggle="modal" data-target="#registrar">Registrarse</a>
+                        -->
+                        <!-- <div class="col-12 forgot">
+                            <p:commandButton value="Crear Cuenta" type="button" onclick="PF('dlg3').show();" class="btn" styleClass="btn btn-primary"/> 
+                        </div> -->
+                        <div style="margin-top:10px" class="form-group">
+                            <div class="col-sm-12 controls">
+                                <p:commandLink value="Ingresar" type="button" class="btn btn-primary" action="#{userValidationRepo.loginRepo()}"  ajax="false"   />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12 control">
+                                <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%;color:white" >
+                                    ¿No tienes cuenta? 
+                                    <p:commandLink value="&ensp;Crear cuenta" onclick="PF('dlg3').show();"/> 
+                                </div>
+                            </div>
+                        </div> 
+
+                        <br></br>
+
+                    </h:form>
+                </div> <!--Fin del modal-->
+            </div>
+        </div>
+
+
+        <p:dialog  widgetVar="dlg3" showEffect="explode" hideEffect="bounce" resizable="false" width="35%" responsive="true" modal="true" draggable="false">
+            <f:facet name="header" >
+                <span>Solicitud de nuevo usuario </span><i class="fas fa-user-plus"></i>
+            </f:facet>
+            <h:form>
+
+                <h:panelGrid columns="2" cellpadding="5" title="Nuevo Usuario" >
+
+                    <h:outputLabel for="username" value="Nombre: " class="font_new_user" />
+                    <p:inputText id="username" value="#{functionsUser.newUser.nombre}" required="true" label="username"  />
+
+                    <h:outputLabel for="correo" value="Correo: " class="font_new_user"/>
+                    <p:inputText id="correo" value="#{functionsUser.newUser.correo}" required="true" label="correo" />
+
+                    <h:outputLabel for="pwd1" value="Password: " class="font_new_user"/>
+                    <p:password id="pwd1" value="#{functionsUser.newUser.psswd}" match="pwd2" label="Password 1" required="true" />
+
+                    <h:outputLabel for="pwd2" value="Repeat Password: " class="font_new_user"/>
+                    <p:password id="pwd2" value="#{functionsUser.newUser.psswd}" label="Password 2" required="true" />
+
+                    <p:outputLabel value="Tipo de Rol: " class="font_new_user"/>
+                    <p:selectOneMenu id="roluser" value="#{functionsUser.cod_rol}" effect="fold" required="true" style="width:100%">
+                        <f:selectItem itemLabel="Seleccione uno..." itemValue="" />
+                        <f:selectItems value="#{catalogobean.roles}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.idRol}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="deptouser" value="Departamento: " class="font_new_user"/>
+                    <p:selectOneMenu id="deptouser" value="#{functionsUser.cod_dpto}" effect="fold" required="true" style="width:100%">
+                        <f:selectItem itemLabel="Seleccione uno..." itemValue="" />
+                        <f:selectItems value="#{catalogobean.dpto}" var="d" itemLabel="#{d.nombre}" itemValue="#{d.codDepartamento}"/>
+                    </p:selectOneMenu>
+
+
+                    <f:facet name="footer" >
+                        <p:commandButton value="Crear Cuenta" actionListener="#{functionsUser.requestNewUser()}" update="loginForm"  onclick="PF('dlg3').hide()" styleClass="btn btn-primary" class="btn" />
+                    </f:facet>  
+
+                </h:panelGrid>
+
+            </h:form>
+        </p:dialog>
+
+
+
+
+
+        <!-- Modal -->
+        <!--
+        <div class="modal fade" id="registrar" tabindex="-1" role="dialog" aria-labelledby="registrar" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tituloRegistrar">Registar Investigador</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h:form>
+                            <div class="form-group">
+                                <label for="correo" class="labelCreate">Correo</label>
+                                <p:inputText placeholder="correo" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="contrasena">Contrasena</label>
+                                <p:inputText placeholder="contrasena" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="conf">Confirmar Contrasena</label>
+                                <p:inputText id="conf" placeholder="confirmar contrasena" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="rol">Roles</label>
+                                <select id="rol" class="form-control">
+                                    <option value="">Rol</option>
+                                    <option value="1">Investigador Uca</option>
+                                    <option value="2">Investigador Inivitado</option>
+                                </select>
+                            </div>                            
+                        </h:form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </h:body>
+</html>

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Admin</title>
+        <script src="../resources/resources/public/js/jquery-3.3.1.min.js"></script>
+        <script src="../resources/public/js/bootstrap.bundle.js"></script>
+        <link rel="stylesheet" type="text/css" href="../resources/public/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+              crossorigin="anonymous"/>
+    </h:head>
+    <h:body>
+        <p:tabMenu activeIndex="#{param.i}">
+    <p:menuitem value="Overview" outcome="investigacion_selct" icon="ui-icon-star">
+        <f:param name="i" value="0" />
+    </p:menuitem>
+    <p:menuitem value="Demos" outcome="user_select" icon="ui-icon-search">
+        <f:param name="i" value="1" />
+    </p:menuitem>
+            
+    <p:menuitem value="Demos" outcome="adm_index2" icon="ui-icon-search">
+        <f:param name="i" value="2" />
+    </p:menuitem>
+   
+</p:tabMenu>
+      
+    </h:body>
+</html>
+

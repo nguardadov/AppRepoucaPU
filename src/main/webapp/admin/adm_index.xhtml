@@ -1,0 +1,382 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <head>
+        <script src="../resources/resources/public/js/jquery-3.3.1.min.js"></script>
+        <!-- <script src="../resources/public/js/bootstrap.bundle.js"></script> -->
+        <link rel="stylesheet" type="text/css" href="../resources/public/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+              crossorigin="anonymous"/>
+    </head>
+    <body>
+        <ui:composition template="./adm_index_template_main.xhtml"  >
+            <ui:define name="content">
+                <script>
+                    function mostrarEditor(component)
+                    {
+                        var x = component.value;
+                        if (x == 0) {
+                            $("#valorRadio").show(100);
+                        } else {
+                            $("#valorRadio").hide(100);
+                        }
+                    }
+
+                    function actualizarComponent() {
+                    }
+
+
+
+                </script>
+                <script src="../resources/js/TimerToken.js"></script>
+
+                <div class="container">
+                    <div class="tab-content" id="pills-tabContent">
+
+                        <!-- ****************************************************** INICIO ****************************************************** -->
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                            MENU DE INICIO SE VAN A MOSTRAR TODAS LAS ACTIVIDADES    
+                        </div>
+
+
+                        <!-- ****************************************************** USUARIOS ****************************************************** -->
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                            <h:form id="form">
+                                <br></br>
+                                <p:messages id="messages" showDetail="true" closable="true">
+                                    <p:autoUpdate />
+                                </p:messages>
+
+                                <p:dataTable id="singleDT" var="user" value="#{userValidationRepo.listuser}" selectionMode="single" selection="#{userValidationRepo.userSelect}" rowKey="#{user.idUsuario}">
+                                    <f:facet name="header">
+                                        Seleccione un Usuario para ver detalles
+                                        <!--<p:graphicImage name="../resources/public/css/angie1.jpg"/> -->
+                                    </f:facet>
+                                    <p:column headerText="Id">
+                                        <h:outputText value="#{user.idUsuario}" />
+                                    </p:column>
+                                    <p:column headerText="Nombre"> 
+                                        <h:outputText value="#{user.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Correo">
+                                        <h:outputText value="#{user.correo}" />
+                                    </p:column>
+                                    <p:column headerText="Rol">
+                                        <h:outputText value="#{user.rol.nombre}" />
+                                    </p:column>
+                                    <f:facet name="footer">
+                                        <!-- <p:commandButton process="singleDT" update=":form:userDetail" icon="ui-icon-search" value="View" oncomplete="PF('userDialog').show()" /> --> <!-- PRUEBA INCLUYENDO DENTRO DE UN P:DIALOG MODAL -->
+                                        <!-- <p:commandLink process="singleDT" value="View" onclick="PF('dialogPrueba').show()" /> --> <!-- PRUEBA INCLUYENDO UN XHTML DENTRO DE UN P:DIALOG -->
+                                        <p:commandButton actionListener ="#{administracionBean.verficarUserSelect(userValidationRepo.userSelect)}" value="Redireccionar Vista de Usuario Seleccionado"  />
+                                    </f:facet>
+                                </p:dataTable>
+
+
+                                <!-- DIALOGO DE USUARIO SELECCIONADO -->
+                                <p:dialog header="Información de Usuario" widgetVar="userDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                                    <p:outputPanel id="userDetail" style="text-align:center;">
+                                        <p:panelGrid  columns="2" rendered="#{not empty userValidationRepo.userSelect}" columnClasses="label,value">
+                                            <f:facet name="header">
+                                                <!-- direccion en disco de la imagen -->
+                                                Informacion de usuario
+                                            </f:facet>
+
+                                            <h:outputText value="Id:" />
+                                            <h:outputText value="#{userValidationRepo.userSelect.idUsuario}" />
+
+                                            <h:outputText value="Nombre" />
+                                            <h:outputText value="#{userValidationRepo.userSelect.nombre}" />
+
+                                            <h:outputText value="Correo:" />
+                                            <h:outputText value="#{userValidationRepo.userSelect.correo}" />
+
+                                            <h:outputText value="Departamento" />
+                                            <h:outputText value="$#{userValidationRepo.userSelect.codDepartamento.nombre}" />
+                                        </p:panelGrid>
+                                    </p:outputPanel>
+                                </p:dialog>
+                            </h:form>
+                        </div>
+
+
+
+                        <div class="tab-pane fade" id="resetpassword" role="tabpanel" aria-labelledby="resetpassword-tab">
+                            <br></br>
+                            <h:panelGrid id="grid-resetpsswd">
+                                <h:form id="formUserResetPassword">
+                                    <p:autoUpdate/>
+
+                                    <p:dataTable id="TableUserResetPassword" var="userResetPsswd" value="#{administracionBean.listaResetPassword}" selectionMode="single" selection="#{administracionBean.userResetPassword}" rowKey="#{userResetPsswd.idUsuario}">
+                                        <p:autoUpdate/>
+                                        <f:facet name="header">
+                                            Lista de Usuarios con petici&oacute;n de restablecer contrase&ntilde;a
+                                        </f:facet>
+
+                                        <p:column headerText="Nombre">
+                                            <h:outputText value="#{userResetPsswd.nombre}" />
+                                        </p:column>
+
+                                        <p:column headerText="Correo">
+                                            <h:outputText value="#{userResetPsswd.correo}" />
+                                        </p:column>
+
+                                        <p:column headerText="Rol Solicitado">
+                                            <h:outputText value="#{userResetPsswd.rol.nombre}" />
+                                        </p:column>
+
+                                        <p:column headerText="Respuesta">
+                                            <h:outputText value="Token establecido" rendered="#{not empty userResetPsswd.psswdTempToken}" />
+                                            <h:outputText value="No se ha establecido token" rendered="#{empty userResetPsswd.psswdTempToken}" />
+                                        </p:column>
+
+                                        <p:column headerText="Tiempo restante" style="text-align: center;">
+                                            <h:outputText value="#{administracionBean.timeStamp(userResetPsswd.psswdTempExpira)}" rendered="#{not empty userResetPsswd.psswdTempToken}" />
+                                            <h:outputText value="--" rendered="#{empty userResetPsswd.psswdTempToken}" />
+                                        </p:column>
+
+                                        <f:facet name="footer">
+                                            <p:commandButton process="TableUserResetPassword" update=":formUserResetPassword:userDetailResetPsswd" icon="ui-icon-search" value="View" oncomplete="PF('userDialogResetPsswd').show();vio();" />
+                                            <p:commandButton value="Recargar datos" icon="ui-icon-refresh" actionListener="#{administracionBean.init()}" update="TableUserResetPassword:,cabecera" />
+                                        </f:facet>
+                                    </p:dataTable>
+
+                                    <p:dialog header="Restablece contraseña" widgetVar="userDialogResetPsswd" modal="true" showEffect="fade" responsive="true" draggable="false" position="center" resizable="false" width="500" closable="false">
+
+
+                                        <p:scrollPanel mode="native" style="border: none;">
+                                            <center>
+                                                <p:outputPanel id="userDetailResetPsswd">
+                                                    <p:panelGrid  columns="2" rendered="#{not empty administracionBean.userResetPassword}" columnClasses="label,value" >
+
+                                                        <f:facet name="header">
+                                                            <!-- direccion en disco de la imagen -->
+                                                            Informacion de usuario
+                                                        </f:facet>
+
+                                                        <c:choose>
+                                                            <c:when test="#{administracionBean.timeStamp(administracionBean.userResetPassword.psswdTempExpira) eq '--'}">
+                                                                <h:outputText  value="Vencimiento"/>
+                                                                <input type="hidden" id="fech" value="No se ha establecido token"/>
+                                                                <p id="noSetTempToken"></p>
+                                                            </c:when>
+
+                                                            <c:when test="#{administracionBean.timeStamp(administracionBean.userResetPassword.psswdTempExpira) != '--'}" >
+                                                                <h:outputText  value="Vencimiento"/>
+                                                                <input type="hidden" id="fech" value="#{administracionBean.timeStamp(administracionBean.userResetPassword.psswdTempExpira)}"/>
+                                                                <p id="demo"></p>
+                                                            </c:when>
+                                                            
+                                                            <c:otherwise>
+                                                                <h:outputText  value="Vencimiento"/>
+                                                                <input type="hidden" id="fech" value="--"/>
+                                                            </c:otherwise>
+                                                        </c:choose>
+
+
+                                                        <h:outputText value="Nombre" />
+                                                        <h:outputText value="#{administracionBean.userResetPassword.nombre}" />
+
+                                                        <h:outputText value="Correo:" />
+                                                        <h:outputText value="#{administracionBean.userResetPassword.correo}" />
+
+                                                        <h:outputText value="Departamento" />
+                                                        <h:outputText value="#{administracionBean.userResetPassword.codDepartamento.nombre}" />
+
+                                                    </p:panelGrid>
+                                                </p:outputPanel>
+                                            </center>
+
+                                            <p:separator></p:separator>
+                                            <center>
+                                                <p:outputLabel for="datetime" value="Fecha de expiración de validacion de token: " />
+                                                <p:calendar id="datetime" value="#{administracionBean.userResetPassword.psswdTempExpira}" pattern="yyyy-MM-dd HH:mm:ss" required="true" showOn="button" mindate="#{administracionBean.today}"/>
+                                            </center>
+
+                                        </p:scrollPanel>
+                                        <f:facet name="footer">
+                                            <p:commandButton  update="grid-resetpsswd" value="Enviar token de recuperacion" action="#{administracionBean.verFecha()}"/>
+                                            <p:commandButton value="Cancelar" resetValues="true" onclick="PF('userDialogResetPsswd').hide();resetFecha();" />
+                                        </f:facet>
+
+                                    </p:dialog>
+                                </h:form>
+                            </h:panelGrid>
+                        </div>
+
+                        <!-- class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"  -->
+                        <div class="tab-pane fade" id="createacount" role="tabpanel" aria-labelledby="createacount-tab">
+                            <br></br>
+                            <h:panelGrid id="grid">
+                                <h:form id="formUserRequest">
+                                    <p:autoUpdate/>
+                                    <p:messages id="messages" showDetail="true" closable="true">
+                                        <p:autoUpdate />
+                                    </p:messages>
+
+                                    <p:dataTable id="TableUserRequestAcount" var="userRequest" value="#{administracionBean.listausuariosPendientes}" selectionMode="single" selection="#{administracionBean.userRequestAcount}" rowKey="#{userRequest.idUsuario}">
+                                        <p:autoUpdate/>
+                                        <f:facet name="header">
+                                            Lista de Usuarios con petici&oacute;n de crear cuenta
+                                        </f:facet>
+
+
+
+                                        <p:column headerText="Nombre">
+                                            <h:outputText value="#{userRequest.nombre}" />
+                                        </p:column>
+
+                                        <p:column headerText="Correo">
+                                            <h:outputText value="#{userRequest.correo}" />
+                                        </p:column>
+
+                                        <p:column headerText="Rol Solicitado">
+                                            <h:outputText value="#{userRequest.rol.descripcion}" />
+                                        </p:column>
+
+                                        <f:facet name="footer">
+                                            <p:commandButton process="TableUserRequestAcount" update=":formUserRequest:userDetailRequest" icon="ui-icon-search" value="View" oncomplete="PF('userDialogRequest').show()" />
+                                            <p:commandButton value="Recargar datos" icon="ui-icon-refresh" actionListener="#{administracionBean.init()}" update="TableUserRequestAcount:,cabecera" />
+                                        </f:facet>
+                                    </p:dataTable>
+
+                                    <p:dialog header="Información de Solicitud" widgetVar="userDialogRequest" modal="true" showEffect="fade" responsive="true" draggable="false" position="center" resizable="false" width="500">
+                                        <p:scrollPanel mode="native" style="border: none;">
+                                            <center>
+                                                <p:outputPanel id="userDetailRequest">
+                                                    <p:panelGrid  columns="2" rendered="#{not empty administracionBean.userRequestAcount}" columnClasses="label,value" >
+                                                        <f:facet name="header">
+                                                            <!-- direccion en disco de la imagen -->
+                                                            Informacion de usuario
+                                                        </f:facet>
+
+                                                        <h:outputText value="Id:" />
+                                                        <h:outputText value="#{administracionBean.userRequestAcount.idUsuario}" />
+
+                                                        <h:outputText value="Nombre" />
+                                                        <h:outputText value="#{administracionBean.userRequestAcount.nombre}" />
+
+                                                        <h:outputText value="Correo:" />
+                                                        <h:outputText value="#{administracionBean.userRequestAcount.correo}" />
+
+                                                        <h:outputText value="Departamento" />
+                                                        <h:outputText value="#{administracionBean.userRequestAcount.codDepartamento.nombre}" />
+                                                    </p:panelGrid>
+                                                </p:outputPanel>
+                                            </center>
+                                            <center>
+                                                <p:selectOneRadio value="#{administracionBean.valueRadioButton}" onchange="mostrarEditor(this)" >
+
+                                                    <f:selectItem itemLabel="Aceptar" itemValue="1"  />
+                                                    <f:selectItem itemLabel="Denegar" itemValue="0" />
+                                                </p:selectOneRadio>
+                                            </center>
+                                            <br></br>
+                                            <div id="valorRadio" >
+                                                <h:outputLabel value="Escriba un motivo por denegar solicitud"/>
+                                                <p:editor  id="editorComp" height="100" value="#{administracionBean.textEditor}" controls="bold italic underline font size" />    
+                                            </div>
+
+
+                                        </p:scrollPanel>
+
+                                        <f:facet name="footer">
+                                            <center>
+                                                <p:commandButton value="Responder" icon="ui-icon-check" process="@all" update=":grid:,cabecera" actionListener="#{administracionBean.aprobarSolicitudCuenta(administracionBean.userRequestAcount)}" onclick="PF('userDialogRequest').hide();"/>
+                                                <p>&nbsp;&nbsp;&nbsp;</p>
+                                                <p:commandButton value="Cancelar" icon="ui-icon-close" />
+                                            </center>
+                                        </f:facet>
+
+                                    </p:dialog>
+                                </h:form>
+                            </h:panelGrid>
+                        </div>
+
+                        <div class="tab-pane fade" id="catalogos" role="tabpanel" aria-labelledby="catalogo-tab">
+                            <h:form id="form_catalog">
+
+                                <p:growl id="msgs" showDetail="true"/>
+
+                                <p:accordionPanel>
+
+                                    <p:tab title="Departamento">
+
+                                        <p:dataTable id="table_dpto" widgetVar="table_dpto" var="dpto" value="#{catalogobean.dpto}" editable="true" style="margin-bottom:20px">
+                                            <f:facet name="header">
+                                                <div class="alert alert-danger" role="alert">
+                                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                                    <span class="sr-only"></span>
+                                                    Puede agregar y editar los campos
+                                                </div>
+                                            </f:facet>
+
+                                            <p:ajax event="rowEdit" listener="#{catalogobean.onRowEdit}" update=":form_catalog:msgs" />
+                                            <p:ajax event="rowEditCancel" listener="#{catalogobean.onRowCancel}" update=":form_catalog:msgs" />
+
+                                            <p:column headerText="Codigo departamento">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{dpto.codDepartamento}" /></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInput" value="#{dpto.codDepartamento}" style="width:100%"/></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+
+                                            <p:column headerText="Nombre departamento">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{dpto.nombre}" /></f:facet>
+                                                    <f:facet name="input"><p:inputText value="#{dpto.nombre}" style="width:100%" label="Year"/></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+
+                                            <p:column headerText="Status">
+                                                <p:selectBooleanCheckbox value="#{dpto.status}" />
+                                            </p:column>
+
+                                            <p:column style="width:32px">
+                                                <p:rowEditor />
+                                            </p:column>
+                                        </p:dataTable>
+
+                                        <center>
+                                            <div>
+                                                <p:commandButton value="Agregar nuevo departamento" icon="ui-icon-plus" styleClass="ui-priority-primary" process="@this" update=":form_catalog:msgs"
+                                                                 actionListener="#{catalogobean.addDepto()}" oncomplete="PF('table_dpto').addRow();"/>
+
+
+                                                <p:commandButton value="Guardar departamento" icon="ui-icon-disk" styleClass="ui-priority-primary" 
+                                                                 actionListener="#{catalogobean.saveDpto()}" update="table_dpto" />
+                                            </div>
+                                        </center>
+
+                                    </p:tab>
+
+                                </p:accordionPanel>
+                            </h:form>
+                        </div>
+
+                    </div>
+                </div>
+
+                <p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+                    <f:facet name="default">
+                    </f:facet>
+
+                    <f:facet name="start" >
+                        <p:graphicImage url="../../resources/images/ajaxloadingbar.gif" />
+                    </f:facet>
+
+                </p:ajaxStatus>
+
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage url="../../resources/images/ajaxloadingbar.gif" />
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

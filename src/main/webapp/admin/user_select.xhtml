@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="../resources/css/bootstra.min.css" />
+        <link rel="stylesheet" type="text/css" href="../resources/css/bootstrap.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+              crossorigin="anonymous"/>
+    </head>
+
+    <body>
+
+        <ui:composition template="./user_select_template.xhtml">
+
+            <ui:define name="content">
+
+                <div class="container">
+                    <br></br>
+                    <p:accordionPanel>
+                        <p:tab title="Actividad">
+                            <div class="alert alert-warning" role="alert">
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                <span class="sr-only"></span>
+                                Por el momento no hay actividades...
+                            </div>
+
+                        </p:tab>   
+
+                        <p:tab title="Datos de Usuario">
+                            <div class="container">
+                                <div class="col-12 user-img" align="center">
+                                    <p:graphicImage url="./../resources/foto.jpg" class="img-thumbnail" width="150" height="150"/>
+                                </div>
+                                <br></br>
+                                <h:form id="datauser">
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" >Nombre de usuario <i class="glyphicon glyphicon-user"></i></span>&nbsp;&nbsp;
+                                            <p:inputText class="form-control" placeholder="Nombre" value="#{administracionBean.userSelectDetails.nombre}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Correo electronico&nbsp; <i class="glyphicon glyphicon-envelope"></i></span>&nbsp;&nbsp;
+                                            <p:inputText class="form-control" placeholder="Correo electronico" value="#{administracionBean.userSelectDetails.correo}" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Telefono de movil&nbsp;&nbsp; <i class="glyphicon glyphicon-earphone"></i></span>&nbsp;&nbsp;
+                                            <p:inputText class="form-control" placeholder="Telefono de contacto" value="#{administracionBean.userSelectDetails.telefono}" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rol de usuario &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-info-sign"></i></span>&nbsp;&nbsp;
+                                            <p:inputText class="form-control" placeholder="Rol de usuario" value="#{administracionBean.userSelectDetails.rol.nombre}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Departamento &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-education"></i></span>&nbsp;&nbsp;
+                                            <!-- <p:inputText class="form-control" placeholder="Departamento"/> -->
+                                            <p:selectOneMenu>
+                                                <f:selectItem itemLabel="#{administracionBean.userSelectDetails.codDepartamento.nombre}" itemValue="#{administracionBean.userSelectDetails.codDepartamento.codDepartamento}"></f:selectItem>
+                                                <f:selectItems value="#{catalogobean.dpto}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.codDepartamento}" ></f:selectItems>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+
+                                    <div align="center" >
+                                        <p:commandButton class="btn btn-warning" value="Guardar Cambios" icon="ui-icon-disk" actionListener="#{administracionBean.guardarCambios()}" update="datauser"/>                            
+                                    </div>
+                                </h:form>
+
+                            </div>
+                        </p:tab>
+
+                        <p:tab title="Gestion de permisos">
+                            <h:form id="permisosuser">
+                                <fieldset >    	
+                                    <legend>Permisos de Aplicación &nbsp; <i class="fas fa-desktop"></i></legend>
+                                    <div class="panel panel-default" style="border: none;">
+                                        <div class="panel-body" >
+
+                                            <table>
+                                                <tr>
+                                                    <td style="padding-top:2.5%">
+
+                                                        <div class="alert alert-info" role="alert">
+                                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                                            <span class="sr-only">Info:</span>
+                                                            Es el permiso que tiene el usuario para entrar a la aplicaci&oacute;n                                     
+                                                        </div>    
+                                                    </td>
+                                                    <td>
+                                                        <div align="center" >
+                                                            <c:if test="#{administracionBean.userSelectDetails.codEstado.codEstado eq 2}">
+                                                                <p:inputSwitch offLabel="Off" onLabel="On" value="#{administracionBean.switchPermisoApp}"/>
+                                                            </c:if>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <p:separator></p:separator>
+                                <fieldset>    	
+                                    <legend>Permisos de Almacenamiento&nbsp; <i class="fas fa-hdd"></i></legend>
+                                    <div class="panel panel-default" style="border: none;">
+                                        <div class="panel-body">
+                                            <div class="panel-body">
+
+                                                <table>
+                                                    <tr>
+                                                        <td style="padding-top:2.5%">
+                                                            <div class="alert alert-info" role="alert">
+                                                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                                                <span class="sr-only">Info:</span>
+                                                                Es el permiso que tiene el usuario para subir el siguiente contenido para su investigaciones:<b></b>
+                                                                <p>&nbsp;&nbsp;&nbsp; * Informes de investigaci&oacute;n archivos WORD(.docx), PDF</p><b></b>
+                                                                <p>&nbsp;&nbsp;&nbsp; * Bases de datos en archivos Ecel (.xlsx), JSON, CSV </p><b></b>
+                                                                <p>&nbsp;&nbsp;&nbsp; * Imágenes en formato (.jpg , PNG) </p>
+                                                            </div>    
+                                                        </td>
+                                                        <td>
+                                                            <div align="center" >
+                                                                <p:inputSwitch offLabel="Off" onLabel="On" value="#{administracionBean.userSelectDetails.status}"/>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div align="center" >
+                                    <p:commandButton class="btn btn-warning" value="Guardar Cambios" icon="ui-icon-disk" actionListener="#{administracionBean.guardarCambiosPermisos()}" update="permisosuser"/>                            
+                                </div>
+                            </h:form>
+                        </p:tab>
+
+                        <p:tab title="Lista de Investigaciones">
+                            <div class="container">
+                                <h:form id="formInvestigaciones">
+                                    <p:dataTable id="singleDT" var="car" value="#{MainBean.listaAutos}" rows="10"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="5,10"
+                                                 scrollable="true"
+                                                 scrollWidth="75%"
+                                                 selectionMode="single"
+                                                 selection="#{MainBean.carSelect}"
+                                                 rowKey="#{car.id}"
+                                                 >
+
+                                        <p:column headerText="Id">
+                                            <h:outputText value="#{car.id}" />
+                                        </p:column>
+
+                                        <p:column headerText="Year">
+                                            <h:outputText value="#{car.color}" />
+                                        </p:column>
+
+                                        <p:column headerText="Brand">
+                                            <h:outputText value="#{car.anio}" />
+                                        </p:column>
+
+
+                                        <f:facet name="footer">
+                                            <p:commandLink process="singleDT" value="View" onclick="PF('dialogInvSelect').show()" />
+                                        </f:facet>
+
+                                    </p:dataTable>
+                                    <p:dialog resizable="false" header="Investigacion Seleccionada " widgetVar="dialogInvSelect" closeOnEscape="true" responsive="true" width="800" height="500" fitViewport="true">
+                                        <ui:include src="investigacion_selct.xhtml" />
+                                    </p:dialog>
+
+                                </h:form>
+                            </div>
+
+                        </p:tab>
+                    </p:accordionPanel>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
